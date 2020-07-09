@@ -143,7 +143,7 @@ func (d *kubeDockerClient) CreateContainer(opts dockertypes.ContainerCreateConfi
 	// we provide an explicit default shm size as to not depend on docker daemon.
 	// TODO: evaluate exposing this as a knob in the API
 	if opts.HostConfig != nil && opts.HostConfig.ShmSize <= 0 {
-		opts.HostConfig.ShmSize = defaultShmSize
+                opts.HostConfig.ShmSize = opts.HostConfig.Resources.Memory
 	}
 	createResp, err := d.client.ContainerCreate(ctx, opts.Config, opts.HostConfig, opts.NetworkingConfig, opts.Name)
 	if ctxErr := contextError(ctx); ctxErr != nil {
